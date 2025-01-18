@@ -28,7 +28,7 @@
     &-optionButttons {
       height: 100%;
       button {
-        margin: 25%;
+        margin: 10%;
         height: 20%;
       }
     }
@@ -64,8 +64,9 @@
       <div class="allKeys-arrayKeys" v-for="(item, index) in arraysKey" :key="index">
         {{ index + 1 }}: {{ item }}
         <div class="allKeys-arrayKeys-optionButttons">
-          <button>{{ index + 1 }}</button><button>{{ index + 1 }}</button
-          ><button>{{ index + 1 }}</button>
+          <button>{{ index + 1 }}</button>
+          <button class="primary">UPDATE</button>
+          <button class="important">DELETE</button>
         </div>
       </div>
     </div>

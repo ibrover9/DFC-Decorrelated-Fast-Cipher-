@@ -6,7 +6,7 @@ import { roundEncryption } from './roundEncryptionDFC'
 
 export function createNewKeysDFC(Key) {
   const fullKey = BigInt('0x' + Key)
-  let PK = []
+  const PK = []
   for (let i = 0; i < 8; i++) {
     PK.push((fullKey >> BigInt(i * 32)) & 0xffffffffn)
   }
@@ -14,8 +14,8 @@ export function createNewKeysDFC(Key) {
   const OB1 = PK[4] | PK[3]
   const EA1 = PK[1] | PK[6]
   const EB1 = PK[5] | PK[2]
-  let OK = []
-  let EK = []
+  const OK = []
+  const EK = []
   for (let i = 1; i <= 4; i++) {
     const OA = OA1 ^ KA[i - 1]
     const OB = OB1 ^ KB[i - 1]
