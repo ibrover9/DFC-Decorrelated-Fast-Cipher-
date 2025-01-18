@@ -15,6 +15,25 @@
   padding: 1%;
   border-radius: 1em;
 }
+
+.allKeys {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  &-arrayKeys {
+    width: 29.3%;
+    background-color: rgb(185, 185, 185);
+    padding: 2%;
+    display: flex;
+    &-optionButttons {
+      height: 100%;
+      button {
+        margin: 25%;
+        height: 20%;
+      }
+    }
+  }
+}
 </style>
 
 <template>
@@ -26,7 +45,7 @@
   <div class="main">
     <h1>Generation Key</h1>
     <label for="PK">PK (256-bit):</label>
-    <input type="text" id="PK" :placeholder="EXAMPLEKEY" />
+    <input type="text" id="PK" v-model="PK" :placeholder="EXAMPLEKEY" />
     <button @click="generationKeys()">Run Generation Keys</button>
 
     <h1>DFC Algorithm Simulation 5 Blocks</h1>
@@ -40,30 +59,37 @@
     <input type="text" id="BlocksD" :placeholder="DECRYPTION5BLOCKS" />
     <button @click="fiveBlocksDFCDecryption()">Run</button>
 
-    <div id="output"></div>
+    <div id="output">{{ resultDFC }}</div>
+    <div class="allKeys">
+      <div class="allKeys-arrayKeys" v-for="(item, index) in arraysKey" :key="index">
+        {{ index + 1 }}: {{ item }}
+        <div class="allKeys-arrayKeys-optionButttons">
+          <button>{{ index + 1 }}</button><button>{{ index + 1 }}</button
+          ><button>{{ index + 1 }}</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="js" setup>
+import { ref, reactive } from 'vue'
 import { KC, KD, RTTable } from '@/constants/constants'
 import { ENCRYPTION5BLOCKS, DECRYPTION5BLOCKS, EXAMPLEKEY } from '@/constants/placeholder'
 import { createNewKeysDFC } from '@/functions/createNewKeysDFC'
 import { hexToBigInt } from '@/functions/hexToBigInt'
 import { bigIntToHex } from '@/functions/bigIntToHexDFC'
 import { roundEncryption } from '@/functions/roundEncryptionDFC'
-
+const PK = ref('')
+const resultDFC = ref('значение по умолчанию ^-^')
+const arraysKey = reactive([])
 const MOD64 = 2n ** 64n
 const MOD64_PLUS_13 = MOD64 + 13n
 
 function generationKeys() {
-  console.log('=== Starting generation Keys ===')
-  const PK = document.getElementById('PK').value
-  if (PK.length !== 64) {
-    alert('PK must be 256 bits (64 hex characters).')
-    return
-  }
-  const result = createNewKeysDFC(PK)
-  document.getElementById('output').innerText = `Keys: ${result.Keys}`
+  const result = createNewKeysDFC(PK.value)
+  resultDFC.value = result
+  arraysKey.push(result)
 }
 
 // Функция для разделения 128-битного числа на две части по 64 бита
@@ -230,6 +256,7 @@ function clearKeys() {
     localStorage.removeItem(`myArray${i}`)
   }
   localStorage.setItem('numberBlock', '1')
+  arraysKey.splice(0, this.arraysKey.length)
 }
 
 function clearBlocks() {
