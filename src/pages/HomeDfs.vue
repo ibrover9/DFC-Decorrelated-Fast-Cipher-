@@ -26,34 +26,18 @@
   <div class="main">
     <h1>Generation Key</h1>
     <label for="PK">PK (256-bit):</label>
-    <input
-      type="text"
-      id="PK"
-      placeholder="1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-    />
+    <input type="text" id="PK" :placeholder="EXAMPLEKEY" />
     <button @click="generationKeys()">Run Generation Keys</button>
 
     <h1>DFC Algorithm Simulation 5 Blocks</h1>
 
     <label for="Blocks">Input 5 Blocks (640-bit hex) for Encryption:</label>
-    <input
-      type="text"
-      id="Blocks"
-      placeholder="2ED5F84F4A894462C7B7DD00E425E23DD44D19C33E89A968B12708CC2D2B8EE47F099845DCE12502710A6DDFCCC6B1A18155522AD1D8B058BA2ADF9D2C191E813F3ACA49CDACCDC7911412E58A4F215A
-
-
-      "
-    />
+    <input type="text" id="Blocks" :placeholder="ENCRYPTION5BLOCKS" />
     <button @click="fiveBlocksDFC()">Run</button>
     <h1>DFC Algorithm Simulation 5 Blocks Decryption</h1>
 
     <label for="BlocksD">Input 5 Blocks (640-bit hex) for Decryption:</label>
-    <input
-      type="text"
-      id="BlocksD"
-      placeholder="b26cd197d53e868fb887d17531c4f372d45525c1227d880b601d350766c8bb4b680cd446463550a635b194097e7d214753f7f1cbba16b569043a622acada8ec95771020bcde051644c174fe0e86fcbb3
-      "
-    />
+    <input type="text" id="BlocksD" :placeholder="DECRYPTION5BLOCKS" />
     <button @click="fiveBlocksDFCDecryption()">Run</button>
 
     <div id="output"></div>
@@ -62,6 +46,7 @@
 
 <script lang="js" setup>
 import { KS, KC, KD, KA, KB, RTTable } from '@/constants/constants'
+import { ENCRYPTION5BLOCKS, DECRYPTION5BLOCKS, EXAMPLEKEY } from '@/constants/placeholder'
 
 const MOD64 = 2n ** 64n
 const MOD64_PLUS_13 = MOD64 + 13n
