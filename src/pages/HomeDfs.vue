@@ -25,11 +25,88 @@
     background-color: rgb(185, 185, 185);
     padding: 2%;
     display: flex;
+
     &-optionButttons {
       height: 100%;
       button {
         margin: 10%;
         height: 20%;
+      }
+    }
+  }
+}
+
+@media (max-width: 1400px) {
+  .allKeys {
+    &-arrayKeys {
+      width: 45.3%;
+      &-optionButttons {
+        button {
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1000px) {
+  .allKeys {
+    &-arrayKeys {
+      width: 98.3%;
+      &-main {
+        width: 80%;
+      }
+      &-optionButttons {
+        button {
+          margin-right: 20%;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .allKeys {
+    font-size: 12px;
+
+    justify-content: center;
+    &-arrayKeys {
+      width: 98.3%;
+      display: block;
+      &-main {
+        width: 100%;
+      }
+      &-optionButttons {
+        width: 30%;
+        height: 100%;
+        display: flex;
+        button {
+          height: 20%;
+          margin-right: 1%;
+          padding: 5%;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 550px) {
+  .allKeys {
+    font-size: 12px;
+
+    justify-content: center;
+    &-arrayKeys {
+      width: 98.3%;
+      display: block;
+      &-main {
+        width: 100%;
+      }
+      &-optionButttons {
+        width: 30%;
+        height: 100%;
+        display: flex;
+        button {
+          height: 15%;
+          margin-right: 1%;
+          padding: 5%;
+        }
       }
     }
   }
@@ -62,7 +139,8 @@
     <div id="output">{{ resultDFC }}</div>
     <div class="allKeys">
       <div class="allKeys-arrayKeys" v-for="(item, index) in arraysKey" :key="index">
-        {{ index + 1 }}: {{ item }}
+        <div class="allKeys-arrayKeys-main">{{ index + 1 }}: {{ item }}</div>
+
         <div class="allKeys-arrayKeys-optionButttons">
           <button>{{ index + 1 }}</button>
           <button class="primary">UPDATE</button>
