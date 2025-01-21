@@ -35,6 +35,9 @@
     }
   }
 }
+.numberBlocks {
+  width: 10%;
+}
 
 @media (max-width: 1400px) {
   .allKeys {
@@ -126,14 +129,14 @@
     <button @click="generationKeys()">Run Generation Keys</button>
 
     <h1>DFC Algorithm Simulation 5 Blocks</h1>
-
     <label for="Blocks">Input 5 Blocks (640-bit hex) for Encryption:</label>
     <input type="text" id="Blocks" :placeholder="ENCRYPTION5BLOCKS" />
+    <input class="numberBlocks" v-model="numberBlocksEncryption" type="number" />
     <button @click="fiveBlocksDFC()">Run</button>
     <h1>DFC Algorithm Simulation 5 Blocks Decryption</h1>
-
     <label for="BlocksD">Input 5 Blocks (640-bit hex) for Decryption:</label>
     <input type="text" id="BlocksD" :placeholder="DECRYPTION5BLOCKS" />
+    <input class="numberBlocks" v-model="numberBlocksDecryption" type="number" />
     <button @click="fiveBlocksDFCDecryption()">Run</button>
 
     <div id="output">{{ resultDFC }}</div>
@@ -153,7 +156,6 @@
 
 <script lang="js" setup>
 import { ref, reactive } from 'vue'
-import { KC, KD, RTTable } from '@/constants/constants'
 import { ENCRYPTION5BLOCKS, DECRYPTION5BLOCKS, EXAMPLEKEY } from '@/constants/placeholder'
 import { createNewKeysDFC } from '@/functions/createNewKeysDFC'
 import { hexToBigInt } from '@/functions/hexToBigInt'
@@ -162,9 +164,9 @@ import { roundEncryption } from '@/functions/roundEncryptionDFC'
 import { roundDecryption } from '@/functions/roundDecryption'
 const PK = ref('')
 const resultDFC = ref('значение по умолчанию ^-^')
+const numberBlocksDecryption = ref()
+const numberBlocksEncryption = ref()
 const arraysKey = reactive([])
-const MOD64 = 2n ** 64n
-const MOD64_PLUS_13 = MOD64 + 13n
 
 function generationKeys() {
   const result = createNewKeysDFC(PK.value)
@@ -188,7 +190,7 @@ function performEncryptionDouble(X) {
     // Получаем значения X и Key для шифрования
 
     // const Key = hexToBigInt(document.getElementById("Key").value);
-    let numberBlock = Number(localStorage.getItem('numberBlock2'))
+    let numberBlock = numberBlocksEncryption.value
     console.log(numberBlock)
     const sourceKey = `myArray${numberBlock}`
     console.log(sourceKey)
@@ -216,9 +218,6 @@ function performEncryptionDouble(X) {
     const RondsInHex = roundsArray.map(bigIntToHex)
     console.log(RondsInHex)
 
-    numberBlock = Number(numberBlock) + 1
-    localStorage.setItem('numberBlock2', numberBlock)
-
     return RondsInHex[RondsInHex.length - 1]
   } catch (error) {
     document.getElementById('output').textContent = `Ошибка: ${error.message}`
@@ -229,10 +228,7 @@ function performEncryptionDouble(X) {
 function performDecryptionDouble(X) {
   try {
     console.log('=== Starting DFC Round (Decryption) ===')
-    let numberBlock = Number(localStorage.getItem('numberBlock'))
-    if (numberBlock == 6) {
-      numberBlock = numberBlock - 1
-    }
+    let numberBlock = numberBlocksDecryption.value
     console.log(numberBlock)
     const sourceKey = `myArray${numberBlock}`
     console.log(sourceKey)
@@ -259,9 +255,6 @@ function performDecryptionDouble(X) {
     }
     const RondsInHex = roundsArray.map(bigIntToHex)
     console.log(RondsInHex)
-
-    numberBlock = Number(numberBlock) - 1
-    localStorage.setItem('numberBlock', numberBlock)
     const reversedRondsInHex = RondsInHex.reverse()
     const outputText = reversedRondsInHex.join('\n')
     document.getElementById('output').textContent = `Output (Decrypted):\n${outputText}`
